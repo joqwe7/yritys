@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.valoisa-nyt.fi/sitemap.xml
+Sitemap: https://joqwe7.github.io/yritys/sitemap.xml
