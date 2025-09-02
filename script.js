@@ -287,13 +287,94 @@
         }
     });
 
-    // Contact form submission (local-only success toast)
+    // Contact form submission (enhanced): validation, honeypot, rate-limiting, AJAX to Formspree
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            showToast('Success', 'Your message has been sent!', 'success');
-            e.target.reset();
+
+            const form = e.currentTarget;
+            const nameInput = form.querySelector('input[name="name"]');
+            const emailInput = form.querySelector('input[name="email"]');
+            const messageInput = form.querySelector('textarea[name="message"]');
+            const honeypot = form.querySelector('input[name="phone_number"]');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            // Honeypot: if filled, silently ignore (likely bot)
+            if (honeypot && honeypot.value.trim() !== '') {
+                return;
+            }
+
+            // Simple client-side validation
+            const fields = [nameInput, emailInput, messageInput];
+            const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let firstInvalid = null;
+
+            if (!nameInput || nameInput.value.trim() === '') firstInvalid = firstInvalid || nameInput;
+            if (!emailInput || emailInput.value.trim() === '' || !emailRe.test(emailInput.value.trim())) firstInvalid = firstInvalid || emailInput;
+            if (!messageInput || messageInput.value.trim() === '') firstInvalid = firstInvalid || messageInput;
+
+            if (firstInvalid) {
+                // Focus first invalid field and show accessible toast
+                firstInvalid.focus();
+                showToast('Virhe', 'Täytä kaikki pakolliset kentät ja käytä kelvollista sähköpostiosoitetta.', 'error');
+                return;
+            }
+
+            // Rate limiting: block repeated submissions for 30 seconds
+            try {
+                const last = localStorage.getItem('contact_last_sent');
+                const now = Date.now();
+                if (last && (now - Number(last) < 30_000)) {
+                    showToast('Odota', 'Odota 30 sekuntia ennen uuden viestin lähettämistä.', 'error');
+                    return;
+                }
+            } catch (err) {
+                // ignore localStorage errors
+            }
+
+            // Prepare to send
+            const fd = new FormData(form);
+
+            // Disable submit button and show loading indicator
+            const origText = submitButton ? submitButton.textContent : null;
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.setAttribute('aria-disabled', 'true');
+                submitButton.textContent = 'Lähetetään...';
+            }
+
+            try {
+                const resp = await fetch(form.action || 'https://formspree.io/f/mldwpryn', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: fd
+                });
+
+                // set last sent time on success-ish (treat 200-299 as success)
+                if (resp.ok) {
+                    try { localStorage.setItem('contact_last_sent', String(Date.now())); } catch (e) {}
+                    form.reset();
+                    showToast('Kiitos!', 'Viestisi on lähetetty. Vastaamme pian.', 'success');
+                } else {
+                    // try to parse error message
+                    let msg = 'Lähetys epäonnistui, yritä myöhemmin.';
+                    try {
+                        const data = await resp.json();
+                        if (data && data.error) msg = data.error;
+                    } catch (_) {}
+                    showToast('Virhe', msg, 'error');
+                }
+            } catch (err) {
+                console.error('Contact form send error', err);
+                showToast('Virhe', 'Verkkovirhe: viestiä ei voitu lähettää.', 'error');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.removeAttribute('aria-disabled');
+                    submitButton.textContent = origText;
+                }
+            }
         });
     }
 

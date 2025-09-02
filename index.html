@@ -291,7 +291,6 @@
                         <iframe src="https://www.google.com/maps?q=Jyväskylä+Keskusta&output=embed" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" title="Map — Jyväskylä Keskusta"></iframe>
                     </div>
                 </div>
-            </div>
         </section>
 
         <!-- About Section: replace warranty card -->
@@ -433,7 +432,13 @@
                 
                 <div class="max-w-3xl mx-auto flex flex-col md:flex-row gap-8">
                     <div class="md:w-1/2">
-                        <form id="contact-form" class="bg-gray-900 rounded-xl p-6 border border-gray-700">
+                        <form id="contact-form" class="bg-gray-900 rounded-xl p-6 border border-gray-700" action="https://formspree.io/f/mldwpryn" method="POST">
+                            <!-- Honeypot for spam bots (keep visually hidden, screen readers ignore) -->
+                            <label class="visually-hidden" aria-hidden="true">
+                              Leave this field empty
+                              <input type="text" name="phone_number" autocomplete="off" tabindex="-1" />
+                            </label>
+
                             <div class="mb-4">
                                 <label for="name" class="block text-gray-300 mb-2">Name</label>
                                 <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
