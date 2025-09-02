@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fi">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Valoisa NYT — LED-valoputket ja tapahtuma</title>
+
+	<!-- SEO -->
+	<meta name="description" content="Valoisa NYT — LED-valoputket ja tapahtuma Jyväskylän keskustassa 25.–27.9.2025.">
+	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="https://www.valoisa-nyt.fi/">
+
+	<!-- Open Graph -->
+	<meta property="og:title" content="Valoisa NYT — LED-valoputket">
+	<meta property="og:description" content="Tule tapaamaan meitä Jyväskylän keskustassa 25.–27.9.2025. Tutustu LED-valoputkiin ja tarjouksiin.">
+	<meta property="og:image" content="/images/og-image.jpg">
+	<meta property="og:url" content="https://www.valoisa-nyt.fi/">
+	<meta property="og:type" content="website">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Valoisa NYT — LED-valoputket">
+	<meta name="twitter:description" content="Tule tapaamaan meitä Jyväskylän keskustassa 25.–27.9.2025.">
+	<meta name="twitter:image" content="/images/og-image.jpg">
+
+	<link rel="stylesheet" href="style.css">
+
+	<!-- Structured Data: Event -->
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "Event",
+	  "name": "Valoisa NYT - LED-tapahtuma",
+	  "startDate": "2025-09-25T10:00:00+03:00",
+	  "endDate": "2025-09-27T20:00:00+03:00",
+	  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+	  "eventStatus": "https://schema.org/EventScheduled",
+	  "location": {
+	    "@type": "Place",
+	    "name": "Jyväskylän keskusta",
+	    "address": {
+	      "@type": "PostalAddress",
+	      "streetAddress": "Jyväskylän keskusta",
+	      "addressLocality": "Jyväskylä",
+	      "postalCode": "40100",
+	      "addressCountry": "FI"
+	    }
+	  },
+	  "offers": {
+	    "@type": "Offer",
+	    "url": "https://www.valoisa-nyt.fi/",
+	    "price": "0",
+	    "priceCurrency": "EUR",
+	    "availability": "https://schema.org/InStock"
+	  }
+	}
+	</script>
+</head>
+<body>
+	<header class="site-header">
+		<div class="container">
+			<a href="/" class="logo-link">
+				<img src="/images/logo.png" alt="Logo - Valoisa NYT" class="logo" width="140" height="40">
+			</a>
+
+			<button id="mobile-menu-btn" aria-label="Avaa valikko" aria-controls="main-nav" aria-expanded="false">Menu</button>
+
+			<nav id="main-nav" role="navigation" class="main-nav">
+				<ul>
+					<li><a href="#event">Tapahtuma</a></li>
+					<li><a href="#products">Tuotteet</a></li>
+					<li><a href="#newsletter">Uutiskirje</a></li>
+					<li><a href="/contact.html">Yhteystiedot</a></li>
+				</ul>
+			</nav>
+
+			<button id="cart-btn" aria-label="Näytä ostoskori" title="Ostoskori">Ostoskori (<span id="cart-count">0</span>)</button>
+		</div>
+	</header>
+
+	<main>
+		<section id="hero" class="hero">
+			<img src="/images/hero.jpg" alt="Valoisat LED-valoputket - kuva" class="hero-img" loading="lazy">
+			<div class="hero-content">
+				<h1>Valoisa NYT</h1>
+				<p>LED-valoputket ja tapahtuma Jyväskylän keskustassa.</p>
+				<p class="event-date">25.–27.9.2025 — 10:00 - 20:00 (daily)</p>
+				<a href="#event" class="btn">Lisätietoja tapahtumasta</a>
+			</div>
+		</section>
+
+		<section id="event" class="event">
+			<h2>Tapahtuma</h2>
+			<p><strong>Ajankohta:</strong> 25.–27.9.2025</p>
+			<p><strong>Aika:</strong> 10:00 - 20:00 (daily)</p>
+			<p><strong>Sijainti:</strong> Jyväskylän keskusta, 40100 Jyväskylä</p>
+			<p><strong>Tule osastollemme:</strong> Tule osastollemme päivittäin klo 12:00 - 18:00</p>
+
+			<div class="map-wrapper" aria-hidden="false">
+				<iframe
+					src="https://www.google.com/maps?q=Jyväskylä+Keskusta&output=embed"
+					width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+					title="Kartta: Jyväskylän keskusta"></iframe>
+			</div>
+		</section>
+
+		<section id="products" class="products">
+			<h2>Tuotteet</h2>
+			<div class="product-list">
+				<!-- Product 1 -->
+				<article class="product" data-id="led-tube-1" data-title="LED Valoputki 120cm" data-price="19.90">
+					<img src="/images/hero.jpg" alt="Valoputki product image" loading="lazy" width="240" height="160">
+					<h3>LED Valoputki 120cm</h3>
+					<p class="price">19,90 €</p>
+					<p class="warranty">Takuuta ei myönnetä</p>
+					<button class="add-to-cart" aria-label="Lisää LED Valoputki 120cm ostoskoriin">Lisää ostoskoriin</button>
+				</article>
+
+				<!-- Product 2 -->
+				<article class="product" data-id="led-tube-2" data-title="LED Valoputki 60cm" data-price="12.50">
+					<img src="/images/hero.jpg" alt="Valoputki product image" loading="lazy" width="240" height="160">
+					<h3>LED Valoputki 60cm</h3>
+					<p class="price">12,50 €</p>
+					<p class="warranty">Takuuta ei myönnetä</p>
+					<button class="add-to-cart" aria-label="Lisää LED Valoputki 60cm ostoskoriin">Lisää ostoskoriin</button>
+				</article>
+			</div>
+		</section>
+
+		<section id="newsletter" class="newsletter">
+			<h2>Tilaa uutiskirje</h2>
+			<form action="https://formspree.io/f/{your-id}" method="POST" id="newsletter-form">
+				<!-- Replace {your-id} with your Formspree ID -->
+				<label for="nl-name">Nimi</label>
+				<input type="text" id="nl-name" name="name" required>
+
+				<label for="nl-email">Sähköposti</label>
+				<input type="email" id="nl-email" name="email" required>
+
+				<button type="submit">Tilaa</button>
+			</form>
+			<div id="newsletter-success" class="sr-only" role="status" aria-live="polite"></div>
+		</section>
+	</main>
+
+	<!-- Cart drawer -->
+	<aside id="cart-drawer" class="cart-drawer" aria-hidden="true">
+		<h2>Ostoskori</h2>
+		<ul id="cart-items" class="cart-items" aria-live="polite" role="list"></ul>
+		<div class="cart-footer">
+			<p>Yhteensä: <span id="cart-total">0,00 €</span></p>
+			<button id="checkout-btn">Siirry maksamaan</button>
+		</div>
+	</aside>
+
+	<!-- Toast / status -->
+	<div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+		<span id="toast-message"></span>
+		<button id="toast-close" aria-label="Sulje ilmoitus">✕</button>
+	</div>
+
+	<footer class="site-footer">
+		<p>Takuuta ei myönnetä. <a href="/privacy.html">Tietosuojaseloste</a> ja <a href="/terms.html">Palautusehdot</a>.</p>
+		<p>© Valoisa NYT 2025</p>
+	</footer>
+
+	<script src="script.js"></script>
+</body>
+</html>

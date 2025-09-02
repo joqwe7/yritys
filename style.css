@@ -1,0 +1,41 @@
+/* Basic reset and layout */
+:root{
+  --brand:#ffcc00;
+  --bg:#ffffff;
+  --text:#222;
+  --accent:#0077cc;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--text);background:var(--bg);line-height:1.4}
+.container{display:flex;align-items:center;gap:1rem;padding:1rem}
+.site-header{background:#111;color:#fff}
+.logo{display:block}
+.main-nav ul{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.main-nav a{color:#fff;text-decoration:none}
+#mobile-menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:.4rem .6rem}
+.hero{position:relative;display:flex;align-items:center;gap:1rem;padding:2rem;background:#f7f7f7}
+.hero-img{width:100%;max-height:320px;object-fit:cover;border-radius:6px}
+.hero-content{max-width:640px}
+.btn{background:var(--accent);color:#fff;padding:.6rem 1rem;border-radius:4px;text-decoration:none;display:inline-block}
+.event{padding:1.5rem}
+.products{padding:1.5rem;background:#fff}
+.product-list{display:flex;gap:1rem;flex-wrap:wrap}
+.product{border:1px solid #eee;padding:1rem;border-radius:6px;width:260px}
+.product img{width:100%;height:auto;border-radius:4px}
+.price{font-weight:700}
+.add-to-cart{background:var(--brand);border:0;padding:.5rem 1rem;border-radius:4px;cursor:pointer}
+.cart-drawer{position:fixed;right:0;top:0;width:320px;height:100%;background:#fff;border-left:1px solid #ddd;padding:1rem;transform:translateX(100%);transition:transform .25s ease}
+.cart-drawer[aria-hidden="false"]{transform:translateX(0)}
+.toast{position:fixed;bottom:1rem;right:1rem;background:#333;color:#fff;padding:.8rem 1rem;border-radius:6px;display:flex;align-items:center;gap:.5rem}
+.toast button{background:transparent;border:0;color:#fff;font-size:1rem}
+.sr-only{position:absolute;left:-9999px}
+.site-footer{padding:1rem;background:#111;color:#fff;margin-top:2rem}
+
+/* Responsive */
+@media(max-width:700px){
+  .main-nav{display:none}
+  #mobile-menu-btn{display:inline-block}
+  .container{justify-content:space-between}
+  .product-list{justify-content:center}
+}
