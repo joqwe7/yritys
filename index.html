@@ -232,31 +232,19 @@
                     </div>
                 </div>
 
-                <!-- BULK-ORDER CALCULATOR -->
-                <div id="bulk-order-calculator" class="bg-gray-900 rounded-xl p-4 border border-gray-700 mt-8">
-                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Bulk Order Calculator</h3>
-                    <label for="bulk-quantity" class="block text-gray-300 mb-1">Quantity</label>
-                    <input id="bulk-quantity" type="number" min="1" value="1" class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-2">
-                    <button id="bulk-calc-btn" class="btn-primary w-full py-2 rounded-lg font-semibold">Calculate</button>
-                    <div id="bulk-order-result" class="mt-2 text-gray-300"></div>
-                    <button id="add-bulk-to-cart" class="btn-secondary w-full py-2 rounded-lg font-semibold mt-2">Add to Cart (bulk)</button>
-                </div>
-                
-                <!-- PRODUCT RATING WIDGET -->
+                <!-- PRODUCT RATING WIDGET (accessible, JS-enhanced) -->
                 <div id="product-rating" class="mt-8 bg-gray-900 rounded-xl p-4 border border-gray-700">
-                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Product Rating</h3>
+                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Tuotteen arvostelu</h3>
                     <div class="flex items-center">
-                        <div id="rating-stars" class="flex">
-                          <!-- 5 star icons inserted here via JS -->
+                        <div id="rating-stars" role="radiogroup" aria-label="Anna arvostelu (1–5 tähteä)" class="flex" tabindex="0">
+                          <!-- JS renders 5 stars here as role="radio" elements -->
                         </div>
                         <span id="rating-average" class="ml-2 text-gray-300"></span>
                     </div>
+                    <div id="rating-live" class="visually-hidden" aria-live="polite"></div>
+                    <noscript><p class="text-gray-400 mt-2">Arvostelut vaativat JavaScriptin — päivitä sivu, jos haluat äänestää.</p></noscript>
                 </div>
-                
-                <!-- DOWNLOAD SPEC SHEET -->
-                <div class="mt-8 text-center">
-                  <a href="/images/spec-sheet.pdf" target="_blank" rel="noopener" class="btn-primary inline-block px-6 py-2 rounded-lg font-semibold">Download spec sheet (PDF)</a>
-                </div>
+
             </div>
         </section>
 
@@ -690,6 +678,9 @@
         </div>
       </div>
     </section>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="btn-primary fixed bottom-6 right-6 rounded-full p-3 hidden" aria-label="Takaisin ylös">▲</button>
 
     <!-- Externalized JS (moved from inline script) -->
     <script src="script.js"></script>

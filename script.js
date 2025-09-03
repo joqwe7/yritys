@@ -531,76 +531,115 @@
       }, 6000);
     });
 
-    /* QUICK BULK-ORDER CALCULATOR */
-    const bulkQuantityEl = document.getElementById('bulk-quantity');
-    const bulkCalcBtn = document.getElementById('bulk-calc-btn');
-    const bulkResultEl = document.getElementById('bulk-order-result');
-    const addBulkBtn = document.getElementById('add-bulk-to-cart');
-    const UNIT_PRICE = 5;
-    function calculateBulkOrder() {
-       let qty = parseInt(bulkQuantityEl.value, 10);
-       if (!qty || qty < 1) qty = 1;
-       let discount = 0;
-       if (qty >=5 && qty < 20) discount = 0.10;
-       if (qty >= 20) discount = 0.20;
-       let subtotal = UNIT_PRICE * qty;
-       let discountAmount = subtotal * discount;
-       let shipping = (pickupEventCheckbox && pickupEventCheckbox.checked) ? 0 : 2.5;
-       let total = subtotal - discountAmount + shipping;
-       bulkResultEl.innerHTML = `Alennus: €${discountAmount.toFixed(2)}<br>Välisumma: €${(subtotal - discountAmount).toFixed(2)}<br>Toimitus: €${shipping.toFixed(2)}<br>Kokonaissumma: €${total.toFixed(2)}`;
-       return qty;
-    }
-    bulkCalcBtn.addEventListener('click', calculateBulkOrder);
-    addBulkBtn.addEventListener('click', () => {
-       const qty = calculateBulkOrder();
-       // re-use existing addToCart logic but add qty instead of 1
-       const product = {
-           id: 1,
-           name: 'Valputki LED Light Tube',
-           price: UNIT_PRICE,
-           quantity: qty
-       };
-       const existingItem = cart.find(item => item.id === product.id);
-       if (existingItem) {
-          existingItem.quantity += qty;
-       } else {
-          cart.push(product);
-       }
-       updateCart();
-       showToast('Success', 'Bulk order added to cart', 'success');
-    });
-
     /* PRODUCT RATING WIDGET */
-    const ratingStarsEl = document.getElementById('rating-stars');
-    const ratingAverageEl = document.getElementById('rating-average');
-    let totalRating = Number(localStorage.getItem('product_total_rating')) || 0;
-    let totalVotes = Number(localStorage.getItem('product_total_votes')) || 0;
-    let hasVoted = localStorage.getItem('product_has_voted') === "true";
-    function renderStars() {
-       ratingStarsEl.innerHTML = '';
-       for (let i = 1; i <= 5; i++) {
-         const star = document.createElement('span');
-         star.textContent = (i <= Math.round(totalRating / (totalVotes || 1))) ? '★' : '☆';
-         star.style.cursor = hasVoted ? 'default' : 'pointer';
-         star.setAttribute('data-value', i);
-         star.setAttribute('aria-label', `${i} star`);
-         if (!hasVoted) {
-            star.addEventListener('click', () => {
-              totalRating += i;
-              totalVotes++;
-              localStorage.setItem('product_total_rating', totalRating);
-              localStorage.setItem('product_total_votes', totalVotes);
-              localStorage.setItem('product_has_voted', "true");
-              renderStars();
-              ratingAverageEl.textContent = `(${(totalRating / totalVotes).toFixed(1)} / 5, ${totalVotes} votes)`;
-              showToast('Kiitos!', 'Kiitos arvostelustasi!', 'success');
-            });
-         }
-         ratingStarsEl.appendChild(star);
-       }
-       ratingAverageEl.textContent = (totalVotes > 0) ? `(${(totalRating / totalVotes).toFixed(1)} / 5, ${totalVotes} votes)` : '(0 votes)';
-    }
-    renderStars();
+    (function setupRating(){
+      const starsContainer = document.getElementById('rating-stars');
+      const avgEl = document.getElementById('rating-average');
+      const liveEl = document.getElementById('rating-live');
+
+      if (!starsContainer || !avgEl) return;
+
+      const KEY_TOTAL = 'valoputki_rating_total';
+      const KEY_COUNT = 'valoputki_rating_count';
+      const KEY_USER = 'valoputki_rating_user_vote';
+
+      let total = Number(localStorage.getItem(KEY_TOTAL)) || 0;
+      let count = Number(localStorage.getItem(KEY_COUNT)) || 0;
+      let userVote = Number(localStorage.getItem(KEY_USER)) || 0; // 0 means no vote
+
+      function getAverage() {
+        return count > 0 ? (total / count) : 0;
+      }
+
+      function render() {
+        // show average and count in Finnish
+        const avg = getAverage();
+        avgEl.textContent = `${avg.toFixed(1)} (${count} ääntä)`;
+        // Clear and render 5 stars. Visual fill based on rounded average for display, but aria-checked reflects userVote
+        starsContainer.innerHTML = '';
+        const roundedAvg = Math.round(avg);
+        for (let i=1;i<=5;i++){
+          const star = document.createElement('span');
+          star.className = 'rating-star text-2xl px-1';
+          star.setAttribute('role','radio');
+          star.setAttribute('aria-checked', String(userVote === i));
+          star.setAttribute('tabindex', '0');
+          star.setAttribute('data-value', String(i));
+          star.setAttribute('aria-label', `${i} tähteä`);
+          star.textContent = (i <= roundedAvg) ? '★' : '☆';
+          // Click / keyboard handlers
+          star.addEventListener('click', () => handleVote(i));
+          star.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleVote(i); }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+              e.preventDefault();
+              const prev = Math.max(1, i-1);
+              const prevEl = starsContainer.querySelector(`[data-value="${prev}"]`);
+              if (prevEl) prevEl.focus();
+            }
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+              e.preventDefault();
+              const next = Math.min(5, i+1);
+              const nextEl = starsContainer.querySelector(`[data-value="${next}"]`);
+              if (nextEl) nextEl.focus();
+            }
+          });
+          starsContainer.appendChild(star);
+        }
+      }
+
+      function handleVote(value) {
+        // Update totals allowing change of previous vote
+        const prev = userVote || 0;
+        if (prev === value) {
+          // no change
+          showToast('Huomio', 'Olet jo antanut saman arvion.', 'error');
+          return;
+        }
+        if (prev === 0) {
+          // new vote
+          total += value;
+          count += 1;
+        } else {
+          // change vote
+          total = total - prev + value;
+          // count unchanged
+        }
+        userVote = value;
+        // Persist
+        try {
+          localStorage.setItem(KEY_TOTAL, String(total));
+          localStorage.setItem(KEY_COUNT, String(count));
+          localStorage.setItem(KEY_USER, String(userVote));
+        } catch (e) {
+          console.warn('Failed to persist rating', e);
+        }
+        render();
+        // Announce and toast in Finnish
+        if (liveEl) liveEl.textContent = 'Arvostelu tallennettu. Kiitos!';
+        if (typeof showToast === 'function') showToast('Kiitos!', 'Arvostelusi on tallennettu.', 'success');
+      }
+
+      // Initial render and ARIA focusability
+      render();
+    })();
+
+    // BACK-TO-TOP BUTTON
+    (function setupBackToTop(){
+      const btn = document.getElementById('back-to-top');
+      if (!btn) return;
+      function check() {
+        if (window.scrollY > 300) btn.classList.remove('hidden');
+        else btn.classList.add('hidden');
+      }
+      window.addEventListener('scroll', check);
+      btn.addEventListener('click', () => {
+        window.scrollTo({top:0, behavior:'smooth'});
+        btn.blur();
+      });
+      // keyboard (Enter/Space) handled by button default
+      check();
+    })();
 
     // Initialize: restore cart and render
     restoreCart();
