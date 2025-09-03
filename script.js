@@ -493,43 +493,57 @@
          }
        }
     });
-    document.getElementById('lightbox-prev').addEventListener('click', () => {
-       currentLightboxIndex = (currentLightboxIndex === 0) ? productImages.length - 1 : currentLightboxIndex - 1;
-       openLightbox(currentLightboxIndex);
-    });
-    document.getElementById('lightbox-next').addEventListener('click', () => {
-       currentLightboxIndex = (currentLightboxIndex + 1) % productImages.length;
-       openLightbox(currentLightboxIndex);
-    });
+    // Lightbox prev/next handlers: only attach if there are images
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+    if (lbPrev && productImages.length > 0) {
+      lbPrev.addEventListener('click', () => {
+        currentLightboxIndex = (currentLightboxIndex === 0) ? productImages.length - 1 : currentLightboxIndex - 1;
+        openLightbox(currentLightboxIndex);
+      });
+    }
+    if (lbNext && productImages.length > 0) {
+      lbNext.addEventListener('click', () => {
+        currentLightboxIndex = (currentLightboxIndex + 1) % productImages.length;
+        openLightbox(currentLightboxIndex);
+      });
+    }
 
     /* TESTIMONIALS CAROUSEL */
+    // Guarded carousel: only initialize if required elements exist
     const carouselTrack = document.querySelector('#testimonial-carousel .carousel-track');
     const testimonials = document.querySelectorAll('.testimonial-item');
-    let currentSlide = 0;
-    const totalSlides = testimonials.length;
-    function updateCarousel() {
-      carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-    let carouselTimer = setInterval(() => { 
-       currentSlide = (currentSlide + 1) % totalSlides;
-       updateCarousel();
-    }, 6000);
-    document.getElementById('testimonial-prev').addEventListener('click', () => {
-       currentSlide = (currentSlide === 0) ? totalSlides - 1 : currentSlide - 1;
-       updateCarousel();
-    });
-    document.getElementById('testimonial-next').addEventListener('click', () => {
-       currentSlide = (currentSlide + 1) % totalSlides;
-       updateCarousel();
-    });
-    const carouselEl = document.getElementById('testimonial-carousel');
-    carouselEl.addEventListener('mouseenter', () => clearInterval(carouselTimer));
-    carouselEl.addEventListener('mouseleave', () => {
-      carouselTimer = setInterval(() => { 
+    if (carouselTrack && testimonials && testimonials.length > 0) {
+      let currentSlide = 0;
+      const totalSlides = testimonials.length;
+      function updateCarousel() {
+        carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+      let carouselTimer = setInterval(() => {
          currentSlide = (currentSlide + 1) % totalSlides;
          updateCarousel();
       }, 6000);
-    });
+      const prevBtn = document.getElementById('testimonial-prev');
+      const nextBtn = document.getElementById('testimonial-next');
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+         currentSlide = (currentSlide === 0) ? totalSlides - 1 : currentSlide - 1;
+         updateCarousel();
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+         currentSlide = (currentSlide + 1) % totalSlides;
+         updateCarousel();
+      });
+      const carouselEl = document.getElementById('testimonial-carousel');
+      if (carouselEl) {
+        carouselEl.addEventListener('mouseenter', () => clearInterval(carouselTimer));
+        carouselEl.addEventListener('mouseleave', () => {
+          carouselTimer = setInterval(() => {
+             currentSlide = (currentSlide + 1) % totalSlides;
+             updateCarousel();
+          }, 6000);
+        });
+      }
+    }
 
     /* PRODUCT RATING WIDGET */
     (function setupRating(){
@@ -646,53 +660,141 @@
     updateCart();
 })();
 
-/* i18n: load translations and apply to elements with data-i18n */
-async function loadTranslations(lang) {
-  if (!lang) return;
-  try {
-    const res = await fetch(`/locales/${lang}.json`);
-    if (!res.ok) throw new Error('Locale not found');
-    const dict = await res.json();
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (!key) return;
-      const value = dict[key];
-      if (typeof value === 'undefined') return; // leave existing text
-      // Avoid injecting HTML — set textContent only
-      el.textContent = value;
-    });
-    // Update selector state if present
-    const sel = document.getElementById('lang-select');
-    if (sel) sel.value = lang;
-    try { localStorage.setItem('site_lang', lang); } catch(e){}
-  } catch (err) {
-    console.warn('Failed to load translations for', lang, err);
-  }
-}
+/* ===== i18n: robust loader, selector wiring, caching, announcements ===== */
+(function i18nModule(){
+  const SELECTOR_ID = 'lang-select';
+  const LS_KEY = 'site_lang';
+  const VALID = ['fi','en'];
+  const cache = Object.create(null); // lang -> dict or Promise
 
-/* Initialize language on load */
-(function initLanguage(){
-  const selector = document.getElementById('lang-select');
-  // Determine initial language: localStorage.site_lang -> navigator.language -> default 'fi'
-  let lang = 'fi';
-  try {
-    const ls = localStorage.getItem('site_lang');
-    if (ls) lang = ls;
-    else {
-      const nav = navigator.language || navigator.userLanguage || '';
-      if (nav && nav.toLowerCase().startsWith('fi')) lang = 'fi';
-      else lang = 'en';
+  function getQueryLang() {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const q = p.get('lang');
+      if (q && VALID.includes(q)) return q;
+    } catch(e){ /* ignore */ }
+    return null;
+  }
+
+  function saveLang(lang) {
+    try { localStorage.setItem(LS_KEY, lang); } catch(e){}
+  }
+
+  function readStoredLang() {
+    try { return localStorage.getItem(LS_KEY); } catch(e){ return null; }
+  }
+
+  function navLangFallback() {
+    try {
+      const nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      return nav.startsWith('fi') ? 'fi' : 'en';
+    } catch(e){ return 'fi'; }
+  }
+
+  // fetch and cache locale JSON; cache stores either object or in-flight Promise
+  async function fetchLocale(lang) {
+    if (!VALID.includes(lang)) lang = 'fi';
+    const cached = cache[lang];
+    if (cached) {
+      // cached may be dict or promise
+      return (cached instanceof Promise) ? cached : Promise.resolve(cached);
     }
-  } catch (e) { /* ignore */ }
-
-  // If selector exists, set up change handler
-  if (selector) {
-    selector.addEventListener('change', (e) => {
-      const v = e.target.value || 'fi';
-      loadTranslations(v);
+    const p = fetch(`/locales/${lang}.json`).then(async res => {
+      if (!res.ok) throw new Error('Locale fetch failed');
+      const dict = await res.json();
+      cache[lang] = dict;
+      return dict;
+    }).catch(err => {
+      console.warn('i18n: failed to load', lang, err);
+      // keep cache empty for this lang so next attempt may retry
+      delete cache[lang];
+      throw err;
     });
+    cache[lang] = p;
+    return p;
   }
 
-  // Load translations (async)
-  loadTranslations(lang);
-})();
+  function translateElement(el, dict) {
+    const key = el.getAttribute('data-i18n');
+    if (!key) return;
+    const value = dict && dict[key];
+    if (typeof value === 'undefined') {
+      // leave existing content as graceful fallback
+      return;
+    }
+    // Only set textContent to avoid injecting HTML
+    el.textContent = value;
+  }
+
+  async function applyTranslations(lang) {
+    try {
+      const dict = await fetchLocale(lang);
+      document.querySelectorAll('[data-i18n]').forEach(el => translateElement(el, dict));
+      // set select UI
+      const sel = document.getElementById(SELECTOR_ID);
+      if (sel) sel.value = lang;
+      saveLang(lang);
+    } catch (err) {
+      // on failure, do not disturb existing DOM (fallback to HTML)
+      // optionally set select value to the lang even if load failed
+      const sel = document.getElementById(SELECTOR_ID);
+      if (sel) sel.value = lang;
+    }
+  }
+
+  function announceLanguage(lang) {
+    const live = document.getElementById('i18n-live');
+    if (!live) return;
+    const msg = lang === 'fi' ? 'Kieli vaihdettu suomeksi' : 'Language changed to English';
+    // brief flash to ensure SR picks up change
+    live.textContent = '';
+    setTimeout(()=> { live.textContent = msg; }, 50);
+  }
+
+  function updateQueryParam(lang) {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      // keep fragment/hash
+      history.replaceState(null, '', url.toString());
+    } catch (e) {
+      // ignore if URL manipulation fails
+    }
+  }
+
+  async function setLanguage(lang, {updateUrl=true, announce=true} = {}) {
+    if (!VALID.includes(lang)) lang = 'fi';
+    // Avoid double apply if already loaded and set (still apply to ensure UI sync)
+    await applyTranslations(lang);
+    if (updateUrl) updateQueryParam(lang);
+    if (announce) announceLanguage(lang);
+  }
+
+  // Initialize: determine language by query -> localStorage -> nav -> default
+  (function init() {
+    const sel = document.getElementById(SELECTOR_ID);
+    const q = getQueryLang();
+    const stored = readStoredLang();
+    let initial = 'fi';
+    if (q) initial = q;
+    else if (stored && VALID.includes(stored)) initial = stored;
+    else initial = navLangFallback();
+
+    // wire selector change
+    if (sel) {
+      // ensure keyboard focus visible (CSS handles outline)
+      sel.addEventListener('change', (e) => {
+        const v = e.target.value || 'fi';
+        setLanguage(v, {updateUrl:true, announce:true});
+      });
+      // reflect initial value quickly for UX
+      sel.value = initial;
+      sel.setAttribute('aria-label', 'Choose language');
+    }
+
+    // load translations (async)
+    setLanguage(initial, {updateUrl: !q /* don't override explicit query param if present */ , announce:false});
+  })();
+})(); /* end i18nModule */
+
+/* ===== end i18n ===== */
