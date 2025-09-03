@@ -645,3 +645,54 @@
     restoreCart();
     updateCart();
 })();
+
+/* i18n: load translations and apply to elements with data-i18n */
+async function loadTranslations(lang) {
+  if (!lang) return;
+  try {
+    const res = await fetch(`/locales/${lang}.json`);
+    if (!res.ok) throw new Error('Locale not found');
+    const dict = await res.json();
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (!key) return;
+      const value = dict[key];
+      if (typeof value === 'undefined') return; // leave existing text
+      // Avoid injecting HTML — set textContent only
+      el.textContent = value;
+    });
+    // Update selector state if present
+    const sel = document.getElementById('lang-select');
+    if (sel) sel.value = lang;
+    try { localStorage.setItem('site_lang', lang); } catch(e){}
+  } catch (err) {
+    console.warn('Failed to load translations for', lang, err);
+  }
+}
+
+/* Initialize language on load */
+(function initLanguage(){
+  const selector = document.getElementById('lang-select');
+  // Determine initial language: localStorage.site_lang -> navigator.language -> default 'fi'
+  let lang = 'fi';
+  try {
+    const ls = localStorage.getItem('site_lang');
+    if (ls) lang = ls;
+    else {
+      const nav = navigator.language || navigator.userLanguage || '';
+      if (nav && nav.toLowerCase().startsWith('fi')) lang = 'fi';
+      else lang = 'en';
+    }
+  } catch (e) { /* ignore */ }
+
+  // If selector exists, set up change handler
+  if (selector) {
+    selector.addEventListener('change', (e) => {
+      const v = e.target.value || 'fi';
+      loadTranslations(v);
+    });
+  }
+
+  // Load translations (async)
+  loadTranslations(lang);
+})();

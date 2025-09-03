@@ -93,14 +93,22 @@
             
             <!-- Navigation -->
             <nav class="hidden md:flex space-x-8" role="navigation">
-                <a href="#home" class="text-gray-300 hover:text-cyan-400 transition">Home</a>
-                <a href="#product" class="text-gray-300 hover:text-cyan-400 transition">Product</a>
-                <a href="#event" class="text-gray-300 hover:text-cyan-400 transition">Event</a>
-                <a href="#about" class="text-gray-300 hover:text-cyan-400 transition">About</a>
-                <a href="#faq" class="text-gray-300 hover:text-cyan-400 transition">FAQ</a>
-                <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition">Contact</a>
+                <a href="#home" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_home">Home</a>
+                <a href="#product" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_product">Product</a>
+                <a href="#event" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_event">Event</a>
+                <a href="#about" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_about">About</a>
+                <a href="#faq" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_faq">FAQ</a>
+                <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition" data-i18n="nav_contact">Contact</a>
             </nav>
-            
+
+            <!-- Language selector (minimal, placed in header) -->
+            <div class="ml-4">
+              <select id="lang-select" class="lang-select" aria-label="Choose language">
+                <option value="fi">Suomi</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+
             <!-- Cart button -->
             <button id="cart-button" class="ml-4 relative" aria-label="Shopping cart">
                 <svg class="w-6 h-6 text-gray-300 hover:text-amber-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -128,26 +136,26 @@
         <section id="home" class="py-20 md:py-32 bg-gradient-to-b from-gray-900 to-gray-800">
             <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4" data-i18n="hero_title">
                         <span class="neon-cyan">Valoputki</span> LED VALOPUTKI (SIVU KESKEN)
                     </h2>
-                    <p class="text-xl text-gray-300 mb-6">Premium quality LED light tubes for any space</p>
+                    <p class="text-xl text-gray-300 mb-6" data-i18n="hero_tagline">Premium quality LED light tubes for any space</p>
                     <div class="flex items-center mb-8">
-                        <span class="text-3xl font-bold neon-amber mr-4">€5</span>
-                        <a href="#product" class="btn-primary px-6 py-3 rounded-lg font-semibold">View Product</a>
+                        <span class="text-3xl font-bold neon-amber mr-4" data-i18n="hero_price">€5</span>
+                        <a href="#product" class="btn-primary px-6 py-3 rounded-lg font-semibold" data-i18n="hero_cta">View Product</a>
                     </div>
                     <div class="flex space-x-4">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 text-amber-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-gray-300">Takuuta ei myönnetä</span>
+                            <span class="text-gray-300" data-i18n="hero_feature_warranty">Takuuta ei myönnetä</span>
                         </div>
                         <div class="flex items-center">
                             <svg class="w-5 h-5 text-amber-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-gray-300">Energy efficient</span>
+                            <span class="text-gray-300" data-i18n="hero_feature_efficient">Energy efficient</span>
                         </div>
                     </div>
                 </div>
@@ -160,14 +168,13 @@
                     </div>
                 </div>
             </div>
-            <!-- EVENT COUNTDOWN TIMER BLOCK -->
-            <div id="countdown-timer" class="text-center text-xl font-semibold text-amber-400 mt-4" aria-live="polite"></div>
+            <div id="countdown-timer" class="text-center text-xl font-semibold text-amber-400 mt-4" aria-live="polite" data-i18n="event_countdown_default">Tapahtuma: 25.–27.9.2025</div>
         </section>
 
         <!-- Product Section -->
         <section id="product" class="py-20 bg-gray-800">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center neon-cyan">Valoputki LED Light Tube</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center neon-cyan" data-i18n="product_title">Valoputki LED Light Tube</h2>
                 
                 <div class="flex flex-col lg:flex-row gap-12">
                     <div class="lg:w-1/2">
@@ -178,54 +185,54 @@
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-2xl font-bold neon-amber">€5</span>
-                                <button id="add-to-cart" class="btn-primary px-6 py-2 rounded-lg font-semibold" aria-label="Lisää ostoskoriin">Add to Cart</button>
+                                <span class="text-2xl font-bold neon-amber" data-i18n="product_price_text">€5</span>
+                                <button id="add-to-cart" class="btn-primary px-6 py-2 rounded-lg font-semibold" aria-label="Lisää ostoskoriin" data-i18n="product_price_btn">Add to Cart</button>
                             </div>
                         </div>
                     </div>
                     
                     <div class="lg:w-1/2">
                         <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 mb-6">
-                            <h3 class="text-xl font-semibold mb-4 neon-cyan">Product Details</h3>
-                            <p class="text-gray-300 mb-6">The Valputki LED light tube is a premium quality lighting solution that combines energy efficiency with beautiful illumination. Perfect for both residential and commercial spaces.</p>
+                            <h3 class="text-xl font-semibold mb-4 neon-cyan" data-i18n="product_details_heading">Product Details</h3>
+                            <p class="text-gray-300 mb-6" data-i18n="product_description">The Valputki LED light tube is a premium quality lighting solution that combines energy efficiency with beautiful illumination. Perfect for both residential and commercial spaces.</p>
                             
-                            <h3 class="text-xl font-semibold mb-4 neon-cyan">Specifications</h3>
+                            <h3 class="text-xl font-semibold mb-4 neon-cyan" data-i18n="product_specs_heading">Specifications</h3>
                             <ul class="space-y-3 text-gray-300 mb-6">
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Length: 60cm (standard size)</span>
+                                    <span data-i18n="spec_length">Length: 60cm (standard size)</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Color Temperature: 4000K (neutral white)</span>
+                                    <span data-i18n="spec_temp">Color Temperature: 4000K (neutral white)</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Luminous Flux: 1200 lumens</span>
+                                    <span data-i18n="spec_lumen">Luminous Flux: 1200 lumens</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Power Consumption: 12W</span>
+                                    <span data-i18n="spec_power">Power Consumption: 12W</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Lifespan: 30,000 hours</span>
+                                    <span data-i18n="spec_lifetime">Lifespan: 30,000 hours</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-5 h-5 text-amber-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span>Dimmable: Yes (with compatible dimmer)</span>
+                                    <span data-i18n="spec_dimmable">Dimmable: Yes (with compatible dimmer)</span>
                                 </li>
                             </ul>
                         </div>
@@ -234,15 +241,13 @@
 
                 <!-- PRODUCT RATING WIDGET (accessible, JS-enhanced) -->
                 <div id="product-rating" class="mt-8 bg-gray-900 rounded-xl p-4 border border-gray-700">
-                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Tuotteen arvostelu</h3>
+                    <h3 class="text-xl font-semibold mb-2 neon-cyan" data-i18n="reviews_heading">Tuotteen arvostelu</h3>
                     <div class="flex items-center">
-                        <div id="rating-stars" role="radiogroup" aria-label="Anna arvostelu (1–5 tähteä)" class="flex" tabindex="0">
-                          <!-- JS renders 5 stars here as role="radio" elements -->
-                        </div>
-                        <span id="rating-average" class="ml-2 text-gray-300"></span>
+                        <div id="rating-stars" role="radiogroup" aria-label="Anna arvostelu (1–5 tähteä)" class="flex" tabindex="0"></div>
+                        <span id="rating-average" class="ml-2 text-gray-300">0 (0 ääntä)</span>
                     </div>
                     <div id="rating-live" class="visually-hidden" aria-live="polite"></div>
-                    <noscript><p class="text-gray-400 mt-2">Arvostelut vaativat JavaScriptin — päivitä sivu, jos haluat äänestää.</p></noscript>
+                    <noscript><p class="text-gray-400 mt-2" data-i18n="reviews_js_notice">Arvostelut vaativat JavaScriptin — päivitä sivu, jos haluat äänestää.</p></noscript>
                 </div>
 
             </div>
@@ -256,14 +261,14 @@
                 <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 border border-gray-700">
                     <div class="flex flex-col md:flex-row gap-8">
                         <div class="md:w-1/2">
-                            <h3 class="text-2xl font-semibold mb-4 neon-cyan">Event Details</h3>
+                            <h3 class="text-2xl font-semibold mb-4 neon-cyan" data-i18n="event_details_heading">Event Details</h3>
                             <div class="space-y-4 text-gray-300">
                                 <div class="flex items-start">
                                     <svg class="w-6 h-6 text-amber-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Date & Time</p>
+                                        <p class="font-medium" data-i18n="event_date">Date & Time</p>
                                         <p>25.–27.9.2025</p>
                                         <p>10:00 - 20:00 (daily)</p>
                                     </div>
@@ -274,7 +279,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Location</p>
+                                        <p class="font-medium" data-i18n="event_location">Location</p>
                                         <p>Jyväskylän keskusta</p>
                                         <p>40100 Jyväskylä</p>
                                     </div>
@@ -284,26 +289,26 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Pickup Information</p>
-                                        <p>Tule osastollemme päivittäin klo 12:00 - 18:00</p>
-                                        <p>Bring your order confirmation</p>
+                                        <p class="font-medium" data-i18n="pickup_info_heading">Pickup Information</p>
+                                        <p data-i18n="pickup_info_time">Tule osastollemme päivittäin klo 12:00 - 18:00</p>
+                                        <p data-i18n="pickup_info_note">Bring your order confirmation</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="md:w-1/2">
-                            <h3 class="text-2xl font-semibold mb-4 neon-cyan">About the Event</h3>
-                            <p class="text-gray-300 mb-4">Valon Kaupunki (City of Light) is an annual festival celebrating illumination and light art in Helsinki. The event transforms the city into a dazzling display of light installations, performances, and interactive experiences.</p>
-                            <p class="text-gray-300 mb-6">By choosing "Pick-up at Valon Kaupunki event" in your cart, you can save on shipping costs and collect your Valputki LED tubes directly from our booth during the event.</p>
+                            <h3 class="text-2xl font-semibold mb-4 neon-cyan" data-i18n="about_event_heading">About the Event</h3>
+                            <p class="text-gray-300 mb-4" data-i18n="about_event_text">Valon Kaupunki (City of Light) is an annual festival celebrating illumination and light art in Helsinki. The event transforms the city into a dazzling display of light installations, performances, and interactive experiences.</p>
+                            <p class="text-gray-300 mb-6" data-i18n="pickup_event_info">By choosing "Pick-up at Valon Kaupunki event" in your cart, you can save on shipping costs and collect your Valputki LED tubes directly from our booth during the event.</p>
                             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
-                                <h4 class="font-semibold neon-amber mb-2">Special Event Offer</h4>
-                                <p class="text-gray-300">Get 10% off when you purchase 5 or more Valputki tubes at the event!</p>
+                                <h4 class="font-semibold neon-amber mb-2" data-i18n="special_event_offer_heading">Special Event Offer</h4>
+                                <p class="text-gray-300" data-i18n="special_event_offer_text">Get 10% off when you purchase 5 or more Valputki tubes at the event!</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Google Maps iframe -->
-                    <div class="mt-6">
+                    <div class="mt-6"></div>
                         <iframe src="https://www.google.com/maps?q=Jyväskylä+Keskusta&output=embed" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" title="Map — Jyväskylä Keskusta"></iframe>
                     </div>
                 </div>
@@ -312,7 +317,7 @@
         <!-- About Section: replace warranty card -->
         <section id="about" class="py-20 bg-gray-800">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center neon-cyan">Why Choose Valoisa NYT?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center neon-cyan" data-i18n="why_choose_title">Why Choose Valoisa NYT?</h2>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-cyan-400 transition">
@@ -321,8 +326,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2 neon-amber">Affordable</h3>
-                        <p class="text-gray-300">At just €5 per tube, our Valputki LED lights offer exceptional value without compromising on quality.</p>
+                        <h3 class="text-xl font-semibold mb-2 neon-amber" data-i18n="affordable_heading">Affordable</h3>
+                        <p class="text-gray-300" data-i18n="affordable_text">At just €5 per tube, our Valputki LED lights offer exceptional value without compromising on quality.</p>
                     </div>
                     
                     <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-cyan-400 transition">
@@ -331,8 +336,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2 neon-amber">Reliable</h3>
-                        <p class="text-gray-300">Our LED tubes are built to last with high-quality components and rigorous testing standards.</p>
+                        <h3 class="text-xl font-semibold mb-2 neon-amber" data-i18n="reliable_heading">Reliable</h3>
+                        <p class="text-gray-300" data-i18n="reliable_text">Our LED tubes are built to last with high-quality components and rigorous testing standards.</p>
                     </div>
                     
                     <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-cyan-400 transition">
@@ -341,8 +346,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2 neon-amber">Takuuta ei myönnetä</h3>
-                        <p class="text-gray-300">Takuuta ei myönnetä</p>
+                        <h3 class="text-xl font-semibold mb-2 neon-amber" data-i18n="no_warranty_heading">Takuuta ei myönnetä</h3>
+                        <p class="text-gray-300" data-i18n="no_warranty_text">Takuuta ei myönnetä</p>
                     </div>
                     
                     <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-cyan-400 transition">
@@ -351,8 +356,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2 neon-amber">Bilingual Support</h3>
-                        <p class="text-gray-300">Our customer service team provides support in both Finnish and English to assist you with any questions.</p>
+                        <h3 class="text-xl font-semibold mb-2 neon-amber" data-i18n="bilingual_support_heading">Bilingual Support</h3>
+                        <p class="text-gray-300" data-i18n="bilingual_support_text">Our customer service team provides support in both Finnish and English to assist you with any questions.</p>
                     </div>
                 </div>
             </div>
@@ -366,74 +371,74 @@
                 <div class="max-w-3xl mx-auto">
                     <div class="faq-item mb-4">
                         <button class="faq-question w-full text-left py-4 px-6 bg-gray-800 rounded-lg flex justify-between items-center">
-                            <span class="text-lg font-medium neon-cyan">What are the shipping options and costs?</span>
+                            <span class="text-lg font-medium neon-cyan" data-i18n="faq_shipping_question">What are the shipping options and costs?</span>
                             <svg class="w-5 h-5 text-amber-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         <div class="faq-content px-6 bg-gray-800 rounded-b-lg">
                             <div class="py-4 text-gray-300">
-                                <p class="mb-2">We offer standard shipping for €2.50 to all locations in Finland. Delivery typically takes 3-5 business days.</p>
-                                <p>For customers attending the Valon Kaupunki event, you can select "Pick-up at event" during checkout to waive the shipping fee and collect your order directly from our booth.</p>
+                                <p class="mb-2" data-i18n="faq_shipping_answer_1">We offer standard shipping for €2.50 to all locations in Finland. Delivery typically takes 3-5 business days.</p>
+                                <p data-i18n="faq_shipping_answer_2">For customers attending the Valon Kaupunki event, you can select "Pick-up at event" during checkout to waive the shipping fee and collect your order directly from our booth.</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item mb-4">
                         <button class="faq-question w-full text-left py-4 px-6 bg-gray-800 rounded-lg flex justify-between items-center">
-                            <span class="text-lg font-medium neon-cyan">How does the warranty work?</span>
+                            <span class="text-lg font-medium neon-cyan" data-i18n="faq_warranty_question">How does the warranty work?</span>
                             <svg class="w-5 h-5 text-amber-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         <div class="faq-content px-6 bg-gray-800 rounded-b-lg">
                             <div class="py-4 text-gray-300">
-                                <p class="mb-2">Takuuta ei myönnetä.</p>
-                                <p>If you experience an issue, please contact our support with proof of purchase; we'll assist where possible.</p>
+                                <p class="mb-2" data-i18n="faq_warranty_answer_1">Takuuta ei myönnetä.</p>
+                                <p data-i18n="faq_warranty_answer_2">If you experience an issue, please contact our support with proof of purchase; we'll assist where possible.</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item mb-4">
                         <button class="faq-question w-full text-left py-4 px-6 bg-gray-800 rounded-lg flex justify-between items-center">
-                            <span class="text-lg font-medium neon-cyan">Can I return the product if I'm not satisfied?</span>
+                            <span class="text-lg font-medium neon-cyan" data-i18n="faq_return_question">Can I return the product if I'm not satisfied?</span>
                             <svg class="w-5 h-5 text-amber-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         <div class="faq-content px-6 bg-gray-800 rounded-b-lg">
                             <div class="py-4 text-gray-300">
-                                <p class="mb-2">Yes, we offer a 14-day return policy for unused products in their original packaging.</p>
-                                <p>To initiate a return, please contact our customer service within 14 days of receiving your order. You'll be responsible for return shipping costs unless the return is due to our error or a defective product.</p>
+                                <p class="mb-2" data-i18n="faq_return_answer_1">Yes, we offer a 14-day return policy for unused products in their original packaging.</p>
+                                <p data-i18n="faq_return_answer_2">To initiate a return, please contact our customer service within 14 days of receiving your order. You'll be responsible for return shipping costs unless the return is due to our error or a defective product.</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item mb-4">
                         <button class="faq-question w-full text-left py-4 px-6 bg-gray-800 rounded-lg flex justify-between items-center">
-                            <span class="text-lg font-medium neon-cyan">Are the Valputki tubes dimmable?</span>
+                            <span class="text-lg font-medium neon-cyan" data-i18n="faq_dimmable_question">Are the Valputki tubes dimmable?</span>
                             <svg class="w-5 h-5 text-amber-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         <div class="faq-content px-6 bg-gray-800 rounded-b-lg">
                             <div class="py-4 text-gray-300">
-                                <p>Yes, our Valputki LED tubes are dimmable when used with a compatible LED dimmer switch. Please note that not all dimmers work with LED lighting, so we recommend checking your existing dimmer's compatibility or consulting with an electrician if you're unsure.</p>
+                                <p data-i18n="faq_dimmable_answer">Yes, our Valputki LED tubes are dimmable when used with a compatible LED dimmer switch. Please note that not all dimmers work with LED lighting, so we recommend checking your existing dimmer's compatibility or consulting with an electrician if you're unsure.</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <button class="faq-question w-full text-left py-4 px-6 bg-gray-800 rounded-lg flex justify-between items-center">
-                            <span class="text-lg font-medium neon-cyan">Do you offer bulk discounts?</span>
+                            <span class="text-lg font-medium neon-cyan" data-i18n="faq_bulk_question">Do you offer bulk discounts?</span>
                             <svg class="w-5 h-5 text-amber-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         <div class="faq-content px-6 bg-gray-800 rounded-b-lg">
                             <div class="py-4 text-gray-300">
-                                <p class="mb-2">We currently offer a special 10% discount when purchasing 5 or more Valputki tubes at the Valon Kaupunki event.</p>
-                                <p>For larger bulk orders (20+ units), please contact our sales team directly at joona.ahonen1@cygnnet.fi to discuss custom pricing options.</p>
+                                <p class="mb-2" data-i18n="faq_bulk_answer_1">We currently offer a special 10% discount when purchasing 5 or more Valputki tubes at the Valon Kaupunki event.</p>
+                                <p data-i18n="faq_bulk_answer_2">For larger bulk orders (20+ units), please contact our sales team directly at joona.ahonen1@cygnnet.fi to discuss custom pricing options.</p>
                             </div>
                         </div>
                     </div>
@@ -456,31 +461,31 @@
                             </label>
 
                             <div class="mb-4">
-                                <label for="name" class="block text-gray-300 mb-2">Name</label>
+                                <label for="name" class="block text-gray-300 mb-2" data-i18n="contact_name_label">Name</label>
                                 <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                             </div>
                             <div class="mb-4">
-                                <label for="email" class="block text-gray-300 mb-2">Email</label>
+                                <label for="email" class="block text-gray-300 mb-2" data-i18n="contact_email_label">Email</label>
                                 <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                             </div>
                             <div class="mb-6">
-                                <label for="message" class="block text-gray-300 mb-2">Message</label>
+                                <label for="message" class="block text-gray-300 mb-2" data-i18n="contact_message_label">Message</label>
                                 <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
                             </div>
-                            <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold">Send Message</button>
+                            <button type="submit" class="btn-primary w-full py-3 rounded-lg font-semibold" data-i18n="contact_send_btn">Send Message</button>
                         </form>
                     </div>
                     
                     <div class="md:w-1/2">
                         <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 h-full">
-                            <h3 class="text-xl font-semibold mb-4 neon-amber">Contact Information</h3>
+                            <h3 class="text-xl font-semibold mb-4 neon-amber" data-i18n="contact_info_heading">Contact Information</h3>
                             <div class="space-y-4 text-gray-300">
                                 <div class="flex items-start">
                                     <svg class="w-6 h-6 text-amber-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Email</p>
+                                        <p class="font-medium" data-i18n="contact_email_label">Email</p>
                                         <p>joona.ahonen1@cygnnet.com</p>
                                     </div>
                                 </div>
@@ -489,7 +494,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Puhelin</p>
+                                        <p class="font-medium" data-i18n="contact_phone_label">Puhelin</p>
                                         <p>ei vielä</p>
                                     </div>
                                 </div>
@@ -499,17 +504,17 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                     <div>
-                                        <p class="font-medium">Address</p>
+                                        <p class="font-medium" data-i18n="contact_address_label">Address</p>
                                         <p>Viitaniemen koulu</p>
                                         <p>40740 Jyväskylä, Suomi</p>
                                     </div>
                                 </div>
                             </div>
                             
-                            <h3 class="text-xl font-semibold mt-8 mb-4 neon-amber">Business Hours</h3>
+                            <h3 class="text-xl font-semibold mt-8 mb-4 neon-amber" data-i18n="business_hours_heading">Business Hours</h3>
                             <div class="text-gray-300">
-                                <p class="mb-1">Valon Kaupunki tapahtuman aikaan</p>
-                                <p>Muina aikoina: Suljettu</p>
+                                <p class="mb-1" data-i18n="business_hours_event_time">Valon Kaupunki tapahtuman aikaan</p>
+                                <p data-i18n="business_hours_other_time">Muina aikoina: Suljettu</p>
                             </div>
                         </div>
                     </div>
@@ -531,7 +536,7 @@
                             <span class="neon-cyan">Valoisa</span> <span class="neon-amber">NYT</span>
                         </h2>
                     </div>
-                    <p class="text-gray-400 mb-4">Premium LED lighting solutions for homes and businesses.</p>
+                    <p class="text-gray-400 mb-4" data-i18n="footer_about">Premium LED lighting solutions for homes and businesses.</p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-cyan-400 transition">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -552,30 +557,30 @@
                 </div>
                 
                 <div class="md:w-1/3">
-                    <h3 class="text-lg font-semibold neon-amber mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold neon-amber mb-4" data-i18n="quick_links_title">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#home" class="text-gray-400 hover:text-cyan-400 transition">Home</a></li>
-                        <li><a href="#product" class="text-gray-400 hover:text-cyan-400 transition">Product</a></li>
-                        <li><a href="#event" class="text-gray-400 hover:text-cyan-400 transition">Event</a></li>
-                        <li><a href="#about" class="text-gray-400 hover:text-cyan-400 transition">About</a></li>
-                        <li><a href="#faq" class="text-gray-400 hover:text-cyan-400 transition">FAQ</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-cyan-400 transition">Contact</a></li>
+                        <li><a href="#home" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_home">Home</a></li>
+                        <li><a href="#product" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_product">Product</a></li>
+                        <li><a href="#event" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_event">Event</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_about">About</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_faq">FAQ</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-cyan-400 transition" data-i18n="nav_contact">Contact</a></li>
                     </ul>
                 </div>
                 
                 <div class="md:w-1/3">
-                    <h3 class="text-lg font-semibold neon-amber mb-4">Newsletter</h3>
-                    <p class="text-gray-400 mb-4">Subscribe to our newsletter for updates and special offers.</p>
+                    <h3 class="text-lg font-semibold neon-amber mb-4" data-i18n="newsletter_title">Newsletter</h3>
+                    <p class="text-gray-400 mb-4" data-i18n="newsletter_description">Subscribe to our newsletter for updates and special offers.</p>
                     <form id="newsletter-form" class="flex" action="https://formspree.io/f/mnqwlqwv" method="POST">
                         <input type="email" name="email" placeholder="Your email" required class="px-4 py-2 rounded-l-lg focus:outline-none bg-gray-800 text-white w-full">
-                        <button type="submit" class="btn-secondary px-4 py-2 rounded-r-lg font-semibold">Subscribe</button>
+                        <button type="submit" class="btn-secondary px-4 py-2 rounded-r-lg font-semibold" data-i18n="newsletter_subscribe_btn">Subscribe</button>
                     </form>
                 </div>
             </div>
             
             <div class="pt-8 border-t border-gray-800 text-center">
-                <p class="text-gray-500">© 2025 Valoisa NYT. All rights reserved.</p>
-                <p class="text-gray-400">Takuuta ei myönnetä. <a href="https://joqwe7.github.io/yritys/terms.html" class="hover:text-cyan-400">Palautusehdot</a> ja <a href="https://joqwe7.github.io/yritys/privacy.html" class="hover:text-cyan-400">Tietosuojaseloste</a>.</p>
+                <p class="text-gray-500" data-i18n="footer_rights">© 2025 Valoisa NYT. All rights reserved.</p>
+                <p class="text-gray-400" data-i18n="footer_terms_privacy">Takuuta ei myönnetä. <a href="https://joqwe7.github.io/yritys/terms.html" class="hover:text-cyan-400" data-i18n="footer_terms">Palautusehdot</a> ja <a href="https://joqwe7.github.io/yritys/privacy.html" class="hover:text-cyan-400" data-i18n="footer_privacy">Tietosuojaseloste</a>.</p>
             </div>
         </div>
     </footer>
@@ -584,7 +589,7 @@
     <div id="cart-drawer" class="cart-drawer fixed top-0 right-0 w-full md:w-96 h-full bg-gray-900 z-50 overflow-y-auto border-l border-gray-800">
         <div class="p-6">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold neon-cyan">Your Cart</h2>
+                <h2 class="text-2xl font-bold neon-cyan" data-i18n="cart_title">Your Cart</h2>
                 <button id="close-cart" class="text-gray-400 hover:text-white" aria-label="Sulje ostoskori">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -594,30 +599,30 @@
             
             <div id="cart-items" class="mb-6">
                 <!-- Cart items will be added here dynamically -->
-                <p id="empty-cart-message" class="text-gray-400 text-center py-8">Your cart is empty</p>
+                <p id="empty-cart-message" class="text-gray-400 text-center py-8" data-i18n="cart_empty_message">Your cart is empty</p>
             </div>
             
             <div class="bg-gray-800 rounded-lg p-4 mb-6">
                 <div class="flex justify-between mb-2">
-                    <span class="text-gray-300">Subtotal</span>
+                    <span class="text-gray-300" data-i18n="cart_subtotal_label">Subtotal</span>
                     <span id="cart-subtotal" class="font-medium">€0.00</span>
                 </div>
                 <div class="flex justify-between mb-4">
-                    <span class="text-gray-300">Shipping</span>
+                    <span class="text-gray-300" data-i18n="cart_shipping_label">Shipping</span>
                     <span id="cart-shipping" class="font-medium">€2.50</span>
                 </div>
                 <div class="flex items-center mb-4">
                     <input type="checkbox" id="pickup-event" class="custom-checkbox mr-3" aria-label="Nouto Valon Kaupunki tapahtumasta">
-                    <label for="pickup-event" class="text-gray-300">Pick-up at Valon Kaupunki event (Free)</label>
+                    <label for="pickup-event" class="text-gray-300" data-i18n="cart_pickup_label">Pick-up at Valon Kaupunki event (Free)</label>
                 </div>
                 <div class="flex justify-between border-t border-gray-700 pt-4">
-                    <span class="text-lg font-bold neon-amber">Total</span>
+                    <span class="text-lg font-bold neon-amber" data-i18n="cart_total_label">Total</span>
                     <span id="cart-total" class="text-lg font-bold neon-amber">€2.50</span>
                 </div>
             </div>
             
-            <button id="checkout-button" class="btn-primary w-full py-3 rounded-lg font-semibold mb-4" aria-label="Siirry kassalle">Proceed to Checkout</button>
-            <button id="continue-shopping" class="btn-secondary w-full py-3 rounded-lg font-semibold" aria-label="Jatka ostoksia">Continue Shopping</button>
+            <button id="checkout-button" class="btn-primary w-full py-3 rounded-lg font-semibold mb-4" aria-label="Siirry kassalle" data-i18n="cart_checkout_btn">Proceed to Checkout</button>
+            <button id="continue-shopping" class="btn-secondary w-full py-3 rounded-lg font-semibold" aria-label="Jatka ostoksia" data-i18n="cart_continue_shopping_btn">Continue Shopping</button>
         </div>
     </div>
 
@@ -630,8 +635,8 @@
                 </svg>
             </div>
             <div class="ml-3">
-                <h3 id="toast-title" class="text-lg font-medium neon-cyan">Success</h3>
-                <p id="toast-message" class="mt-1 text-gray-300">Item added to cart</p>
+                <h3 id="toast-title" class="text-lg font-medium neon-cyan" data-i18n="toast_success_title">Success</h3>
+                <p id="toast-message" class="mt-1 text-gray-300" data-i18n="toast_success_message">Item added to cart</p>
             </div>
             <button id="close-toast" class="ml-auto -mx-1.5 -my-1.5 text-gray-400 hover:text-white rounded-lg p-1.5 focus:outline-none" aria-label="Sulje ilmoitus">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -660,15 +665,15 @@
           <div class="carousel-track flex transition-transform duration-500">
             <!-- Each testimonial -->
             <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
-              <p class="text-gray-300">"Laadukas tuote ja erinomainen asiakaspalvelu!"</p>
+              <p class="text-gray-300" data-i18n="testimonial_1">"Laadukas tuote ja erinomainen asiakaspalvelu!"</p>
               <p class="mt-2 font-semibold text-amber-400">– Maija, Jyväskylä</p>
             </div>
             <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
-              <p class="text-gray-300">"Erittäin energiatehokas ja tyylikäs ratkaisu."</p>
+              <p class="text-gray-300" data-i18n="testimonial_2">"Erittäin energiatehokas ja tyylikäs ratkaisu."</p>
               <p class="mt-2 font-semibold text-amber-400">– Pekka, Helsinki</p>
             </div>
             <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
-              <p class="text-gray-300">"Suosittelen lämpimästi kaikille LED-valoputkien ystäville."</p>
+              <p class="text-gray-300" data-i18n="testimonial_3">"Suosittelen lämpimästi kaikille LED-valoputkien ystäville."</p>
               <p class="mt-2 font-semibold text-amber-400">– Liisa, Tampere</p>
             </div>
           </div>

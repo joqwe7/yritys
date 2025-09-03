@@ -168,6 +168,20 @@ input:focus, textarea:focus {
 
 /* Bulk-order calculator & rating widget styles inherited from existing theme */
 
+/* Language selector styles */
+.lang-select {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-family: inherit;
+}
+.lang-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,247,255,0.12);
+}
+
 /* (Keep other existing styles unchanged) */
 
 /* ...end moved code... */
