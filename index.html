@@ -160,6 +160,8 @@
                     </div>
                 </div>
             </div>
+            <!-- EVENT COUNTDOWN TIMER BLOCK -->
+            <div id="countdown-timer" class="text-center text-xl font-semibold text-amber-400 mt-4" aria-live="polite"></div>
         </section>
 
         <!-- Product Section -->
@@ -228,6 +230,32 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <!-- BULK-ORDER CALCULATOR -->
+                <div id="bulk-order-calculator" class="bg-gray-900 rounded-xl p-4 border border-gray-700 mt-8">
+                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Bulk Order Calculator</h3>
+                    <label for="bulk-quantity" class="block text-gray-300 mb-1">Quantity</label>
+                    <input id="bulk-quantity" type="number" min="1" value="1" class="w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-2">
+                    <button id="bulk-calc-btn" class="btn-primary w-full py-2 rounded-lg font-semibold">Calculate</button>
+                    <div id="bulk-order-result" class="mt-2 text-gray-300"></div>
+                    <button id="add-bulk-to-cart" class="btn-secondary w-full py-2 rounded-lg font-semibold mt-2">Add to Cart (bulk)</button>
+                </div>
+                
+                <!-- PRODUCT RATING WIDGET -->
+                <div id="product-rating" class="mt-8 bg-gray-900 rounded-xl p-4 border border-gray-700">
+                    <h3 class="text-xl font-semibold mb-2 neon-cyan">Product Rating</h3>
+                    <div class="flex items-center">
+                        <div id="rating-stars" class="flex">
+                          <!-- 5 star icons inserted here via JS -->
+                        </div>
+                        <span id="rating-average" class="ml-2 text-gray-300"></span>
+                    </div>
+                </div>
+                
+                <!-- DOWNLOAD SPEC SHEET -->
+                <div class="mt-8 text-center">
+                  <a href="/images/spec-sheet.pdf" target="_blank" rel="noopener" class="btn-primary inline-block px-6 py-2 rounded-lg font-semibold">Download spec sheet (PDF)</a>
                 </div>
             </div>
         </section>
@@ -624,6 +652,44 @@
             </button>
         </div>
     </div>
+
+    <!-- Lightbox Modal (hidden, appended at the end of body) -->
+    <div id="lightbox-modal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 hidden" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+      <div class="relative">
+        <button id="lightbox-close" class="absolute top-2 right-2 text-white text-2xl" aria-label="Close modal">&times;</button>
+        <img id="lightbox-image" src="" alt="Large product image" class="max-w-full max-h-screen" loading="lazy">
+        <!-- Navigation -->
+        <button id="lightbox-prev" class="absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-3xl" aria-label="Previous image">&#10094;</button>
+        <button id="lightbox-next" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-3xl" aria-label="Next image">&#10095;</button>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS CAROUSEL -->
+    <section id="testimonials" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center neon-cyan">Testimonials</h2>
+        <div id="testimonial-carousel" class="relative overflow-hidden">
+          <div class="carousel-track flex transition-transform duration-500">
+            <!-- Each testimonial -->
+            <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
+              <p class="text-gray-300">"Laadukas tuote ja erinomainen asiakaspalvelu!"</p>
+              <p class="mt-2 font-semibold text-amber-400">– Maija, Jyväskylä</p>
+            </div>
+            <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
+              <p class="text-gray-300">"Erittäin energiatehokas ja tyylikäs ratkaisu."</p>
+              <p class="mt-2 font-semibold text-amber-400">– Pekka, Helsinki</p>
+            </div>
+            <div class="testimonial-item flex-shrink-0 w-full p-6 bg-gray-900 rounded-xl border border-gray-700 mx-2">
+              <p class="text-gray-300">"Suosittelen lämpimästi kaikille LED-valoputkien ystäville."</p>
+              <p class="mt-2 font-semibold text-amber-400">– Liisa, Tampere</p>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+          <button id="testimonial-prev" class="absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-2xl" aria-label="Previous testimonial">&#10094;</button>
+          <button id="testimonial-next" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-2xl" aria-label="Next testimonial">&#10095;</button>
+        </div>
+      </div>
+    </section>
 
     <!-- Externalized JS (moved from inline script) -->
     <script src="script.js"></script>

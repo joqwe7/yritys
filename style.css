@@ -150,4 +150,23 @@ input:focus, textarea:focus {
   clip-path: inset(50%);
 }
 
+/* Modal for lightbox */
+.modal {
+  z-index: 100;
+}
+/* Testimonials carousel controls (if needed) */
+#testimonial-carousel button {
+  background: rgba(15, 23, 42, 0.8);
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+#testimonial-carousel button:focus {
+  outline: 2px solid var(--neon-cyan);
+}
+
+/* Bulk-order calculator & rating widget styles inherited from existing theme */
+
+/* (Keep other existing styles unchanged) */
+
 /* ...end moved code... */

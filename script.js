@@ -428,6 +428,180 @@
         });
     });
 
+    /* EVENT COUNTDOWN TIMER */
+    function updateCountdown() {
+      const timerEl = document.getElementById('countdown-timer');
+      if (!timerEl) return;
+      const now = new Date();
+      const eventStart = new Date("2025-09-25T10:00:00+03:00");
+      const eventEnd = new Date("2025-09-27T20:00:00+03:00");
+      
+      if (now < eventStart) {
+        const diff = eventStart - now;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        timerEl.textContent = `Tapahtumaan jäljellä: ${d} pv ${h} h ${m} min ${s} s`;
+      } else if (now >= eventStart && now < eventEnd) {
+        const diff = eventEnd - now;
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        timerEl.textContent = `Tapahtuma meneillään – loppuu: ${h} h ${m} min ${s} s`;
+      } else {
+        timerEl.textContent = "Tapahtuma päättynyt";
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* PRODUCT IMAGE LIGHTBOX */
+    const productImgElements = document.querySelectorAll('#product img');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImage = document.getElementById('lightbox-image');
+    let productImages = []; // to hold src's for navigation
+    productImgElements.forEach((img, i) => {
+      // Mark images as lazy and clickable
+      img.setAttribute('loading', 'lazy');
+      img.style.cursor = 'pointer';
+      productImages.push(img.src);
+      img.addEventListener('click', () => {
+         currentLightboxIndex = i;
+         openLightbox(i);
+      });
+    });
+    let currentLightboxIndex = 0;
+    function openLightbox(i) {
+      lightboxImage.src = productImages[i];
+      lightboxModal.classList.remove('hidden');
+      lightboxModal.focus();
+    }
+    function closeLightbox() { lightboxModal.classList.add('hidden'); }
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightboxModal.addEventListener('click', (e) => { if (e.target === lightboxModal) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+       if (lightboxModal && !lightboxModal.classList.contains('hidden')) {
+         if (e.key === 'Escape') closeLightbox();
+         if (e.key === 'ArrowLeft') {
+           currentLightboxIndex = (currentLightboxIndex === 0) ? productImages.length - 1 : currentLightboxIndex - 1;
+           openLightbox(currentLightboxIndex);
+         }
+         if (e.key === 'ArrowRight') {
+           currentLightboxIndex = (currentLightboxIndex + 1) % productImages.length;
+           openLightbox(currentLightboxIndex);
+         }
+       }
+    });
+    document.getElementById('lightbox-prev').addEventListener('click', () => {
+       currentLightboxIndex = (currentLightboxIndex === 0) ? productImages.length - 1 : currentLightboxIndex - 1;
+       openLightbox(currentLightboxIndex);
+    });
+    document.getElementById('lightbox-next').addEventListener('click', () => {
+       currentLightboxIndex = (currentLightboxIndex + 1) % productImages.length;
+       openLightbox(currentLightboxIndex);
+    });
+
+    /* TESTIMONIALS CAROUSEL */
+    const carouselTrack = document.querySelector('#testimonial-carousel .carousel-track');
+    const testimonials = document.querySelectorAll('.testimonial-item');
+    let currentSlide = 0;
+    const totalSlides = testimonials.length;
+    function updateCarousel() {
+      carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    let carouselTimer = setInterval(() => { 
+       currentSlide = (currentSlide + 1) % totalSlides;
+       updateCarousel();
+    }, 6000);
+    document.getElementById('testimonial-prev').addEventListener('click', () => {
+       currentSlide = (currentSlide === 0) ? totalSlides - 1 : currentSlide - 1;
+       updateCarousel();
+    });
+    document.getElementById('testimonial-next').addEventListener('click', () => {
+       currentSlide = (currentSlide + 1) % totalSlides;
+       updateCarousel();
+    });
+    const carouselEl = document.getElementById('testimonial-carousel');
+    carouselEl.addEventListener('mouseenter', () => clearInterval(carouselTimer));
+    carouselEl.addEventListener('mouseleave', () => {
+      carouselTimer = setInterval(() => { 
+         currentSlide = (currentSlide + 1) % totalSlides;
+         updateCarousel();
+      }, 6000);
+    });
+
+    /* QUICK BULK-ORDER CALCULATOR */
+    const bulkQuantityEl = document.getElementById('bulk-quantity');
+    const bulkCalcBtn = document.getElementById('bulk-calc-btn');
+    const bulkResultEl = document.getElementById('bulk-order-result');
+    const addBulkBtn = document.getElementById('add-bulk-to-cart');
+    const UNIT_PRICE = 5;
+    function calculateBulkOrder() {
+       let qty = parseInt(bulkQuantityEl.value, 10);
+       if (!qty || qty < 1) qty = 1;
+       let discount = 0;
+       if (qty >=5 && qty < 20) discount = 0.10;
+       if (qty >= 20) discount = 0.20;
+       let subtotal = UNIT_PRICE * qty;
+       let discountAmount = subtotal * discount;
+       let shipping = (pickupEventCheckbox && pickupEventCheckbox.checked) ? 0 : 2.5;
+       let total = subtotal - discountAmount + shipping;
+       bulkResultEl.innerHTML = `Alennus: €${discountAmount.toFixed(2)}<br>Välisumma: €${(subtotal - discountAmount).toFixed(2)}<br>Toimitus: €${shipping.toFixed(2)}<br>Kokonaissumma: €${total.toFixed(2)}`;
+       return qty;
+    }
+    bulkCalcBtn.addEventListener('click', calculateBulkOrder);
+    addBulkBtn.addEventListener('click', () => {
+       const qty = calculateBulkOrder();
+       // re-use existing addToCart logic but add qty instead of 1
+       const product = {
+           id: 1,
+           name: 'Valputki LED Light Tube',
+           price: UNIT_PRICE,
+           quantity: qty
+       };
+       const existingItem = cart.find(item => item.id === product.id);
+       if (existingItem) {
+          existingItem.quantity += qty;
+       } else {
+          cart.push(product);
+       }
+       updateCart();
+       showToast('Success', 'Bulk order added to cart', 'success');
+    });
+
+    /* PRODUCT RATING WIDGET */
+    const ratingStarsEl = document.getElementById('rating-stars');
+    const ratingAverageEl = document.getElementById('rating-average');
+    let totalRating = Number(localStorage.getItem('product_total_rating')) || 0;
+    let totalVotes = Number(localStorage.getItem('product_total_votes')) || 0;
+    let hasVoted = localStorage.getItem('product_has_voted') === "true";
+    function renderStars() {
+       ratingStarsEl.innerHTML = '';
+       for (let i = 1; i <= 5; i++) {
+         const star = document.createElement('span');
+         star.textContent = (i <= Math.round(totalRating / (totalVotes || 1))) ? '★' : '☆';
+         star.style.cursor = hasVoted ? 'default' : 'pointer';
+         star.setAttribute('data-value', i);
+         star.setAttribute('aria-label', `${i} star`);
+         if (!hasVoted) {
+            star.addEventListener('click', () => {
+              totalRating += i;
+              totalVotes++;
+              localStorage.setItem('product_total_rating', totalRating);
+              localStorage.setItem('product_total_votes', totalVotes);
+              localStorage.setItem('product_has_voted', "true");
+              renderStars();
+              ratingAverageEl.textContent = `(${(totalRating / totalVotes).toFixed(1)} / 5, ${totalVotes} votes)`;
+              showToast('Kiitos!', 'Kiitos arvostelustasi!', 'success');
+            });
+         }
+         ratingStarsEl.appendChild(star);
+       }
+       ratingAverageEl.textContent = (totalVotes > 0) ? `(${(totalRating / totalVotes).toFixed(1)} / 5, ${totalVotes} votes)` : '(0 votes)';
+    }
+    renderStars();
+
     // Initialize: restore cart and render
     restoreCart();
     updateCart();
