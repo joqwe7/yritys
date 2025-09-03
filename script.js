@@ -695,18 +695,18 @@
   async function fetchLocale(lang) {
     if (!VALID.includes(lang)) lang = 'fi';
     const cached = cache[lang];
-    if (cached) {
-      // cached may be dict or promise
-      return (cached instanceof Promise) ? cached : Promise.resolve(cached);
-    }
-    const p = fetch(`/locales/${lang}.json`).then(async res => {
-      if (!res.ok) throw new Error('Locale fetch failed');
+    if (cached) return (cached instanceof Promise) ? cached : Promise.resolve(cached);
+
+    // Use relative URL so fetch works under subpaths (GitHub Pages etc.)
+    const localeUrl = new URL(`locales/${lang}.json`, location.href).toString();
+
+    const p = fetch(localeUrl).then(async res => {
+      if (!res.ok) throw new Error('Locale fetch failed: ' + res.status);
       const dict = await res.json();
       cache[lang] = dict;
       return dict;
     }).catch(err => {
       console.warn('i18n: failed to load', lang, err);
-      // keep cache empty for this lang so next attempt may retry
       delete cache[lang];
       throw err;
     });
@@ -719,10 +719,12 @@
     if (!key) return;
     const value = dict && dict[key];
     if (typeof value === 'undefined') {
-      // leave existing content as graceful fallback
+      // leave existing content (graceful fallback)
       return;
     }
-    // Only set textContent to avoid injecting HTML
+    // Safe translation strategy:
+    // - use textContent so no HTML is injected
+    // - this will replace content; to preserve decorative child spans (neon), split large elements in HTML (hero handled in index.html)
     el.textContent = value;
   }
 
@@ -730,13 +732,13 @@
     try {
       const dict = await fetchLocale(lang);
       document.querySelectorAll('[data-i18n]').forEach(el => translateElement(el, dict));
-      // set select UI
       const sel = document.getElementById(SELECTOR_ID);
       if (sel) sel.value = lang;
       saveLang(lang);
+      // announce current language for SR users
+      announceLanguage(lang);
     } catch (err) {
-      // on failure, do not disturb existing DOM (fallback to HTML)
-      // optionally set select value to the lang even if load failed
+      console.warn('i18n: applyTranslations failed for', lang);
       const sel = document.getElementById(SELECTOR_ID);
       if (sel) sel.value = lang;
     }
@@ -746,25 +748,21 @@
     const live = document.getElementById('i18n-live');
     if (!live) return;
     const msg = lang === 'fi' ? 'Kieli vaihdettu suomeksi' : 'Language changed to English';
-    // brief flash to ensure SR picks up change
+    // small debounce to ensure SR picks up the change
     live.textContent = '';
-    setTimeout(()=> { live.textContent = msg; }, 50);
+    setTimeout(() => { live.textContent = msg; }, 50);
   }
 
   function updateQueryParam(lang) {
     try {
-      const url = new URL(window.location.href);
+      const url = new URL(location.href);
       url.searchParams.set('lang', lang);
-      // keep fragment/hash
       history.replaceState(null, '', url.toString());
-    } catch (e) {
-      // ignore if URL manipulation fails
-    }
+    } catch (e) { /* ignore */ }
   }
 
   async function setLanguage(lang, {updateUrl=true, announce=true} = {}) {
     if (!VALID.includes(lang)) lang = 'fi';
-    // Avoid double apply if already loaded and set (still apply to ensure UI sync)
     await applyTranslations(lang);
     if (updateUrl) updateQueryParam(lang);
     if (announce) announceLanguage(lang);
@@ -780,19 +778,21 @@
     else if (stored && VALID.includes(stored)) initial = stored;
     else initial = navLangFallback();
 
-    // wire selector change
     if (sel) {
-      // ensure keyboard focus visible (CSS handles outline)
       sel.addEventListener('change', (e) => {
         const v = e.target.value || 'fi';
-        setLanguage(v, {updateUrl:true, announce:true});
+        setLanguage(v, {updateUrl: true, announce: true});
       });
-      // reflect initial value quickly for UX
       sel.value = initial;
       sel.setAttribute('aria-label', 'Choose language');
     }
 
-    // load translations (async)
+    // Load translations now (don't override explicit query param)
+    setLanguage(initial, {updateUrl: !q, announce:false});
+  })();
+})(); /* end i18nModule */
+
+/* ===== end i18n ===== */
     setLanguage(initial, {updateUrl: !q /* don't override explicit query param if present */ , announce:false});
   })();
 })(); /* end i18nModule */

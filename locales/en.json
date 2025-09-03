@@ -6,7 +6,8 @@
   "nav_faq": "FAQ",
   "nav_contact": "Contact",
 
-  "hero_title": "Valoputki LED LIGHT TUBE (PAGE UNDER CONSTRUCTION)",
+  "hero_brand": "Valoputki",
+  "hero_title_rest": "LED LIGHT TUBE (PAGE UNDER CONSTRUCTION)",
   "hero_tagline": "Premium quality LED light tubes for any space",
   "hero_price": "€5",
   "hero_cta": "View Product",
@@ -90,7 +91,7 @@
   "footer_newsletter_text": "Subscribe to our newsletter for updates and special offers.",
   "footer_subscribe_placeholder": "Your email",
   "footer_subscribe_button": "Subscribe",
-  "footer_copyright": "© 2024 Valoisa NYT. All rights reserved.",
+  "footer_copyright": "© 2025 Valoisa NYT. All rights reserved.",
 
   "cart_heading": "Your Cart",
   "cart_empty": "Your cart is empty",

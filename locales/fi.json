@@ -6,7 +6,8 @@
   "nav_faq": "UKK",
   "nav_contact": "Yhteystiedot",
 
-  "hero_title": "Valoputki LED-VALOPUTKI (SIVU KESKEN)",
+  "hero_brand": "Valoputki",
+  "hero_title_rest": "LED VALOPUTKI (SIVU KESKEN)",
   "hero_tagline": "Premium-laatuiset LED-valoputket jokaiseen tilaan",
   "hero_price": "€5",
   "hero_cta": "Katso tuote",
@@ -90,7 +91,7 @@
   "footer_newsletter_text": "Tilaa uutiskirjeemme päivityksistä ja erikoistarjouksista.",
   "footer_subscribe_placeholder": "Sähköpostisi",
   "footer_subscribe_button": "Tilaa",
-  "footer_copyright": "© 2024 Valoisa NYT. Kaikki oikeudet pidätetään.",
+  "footer_copyright": "© 2025 Valoisa NYT. Kaikki oikeudet pidätetään.",
 
   "cart_heading": "Ostoskori",
   "cart_empty": "Ostoskori on tyhjä",
